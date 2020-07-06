@@ -9,12 +9,12 @@ namespace CarReportSystem
 {
     class CarReport
     {
-        public DateTime CreatedDate; //作成日
-        public string Author; //記録者
-        public CarMaker MaKer; //メーカー（列挙型)
-        public string Name; //車名
-        public string Report; //レポート 
-        public Image Picture; //画像
+        public DateTime CreatedDate { get; set; } //作成日
+        public string Author { get; set; } //記録者
+        public CarMaker MaKer { get; set; } //メーカー（列挙型)
+        public string Name { get; set; } //車名
+        public string Report { get; set; } //レポート 
+        public Image Picture { get; set; } //画像
     }
 
     //メーカー
