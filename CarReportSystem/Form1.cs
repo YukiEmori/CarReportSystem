@@ -10,11 +10,13 @@ using System.Windows.Forms;
 
 namespace CarReportSystem
 {
-    public partial class Form1 : Form
+    public partial class rbSonota : Form
     {
-        public Form1()
+        public rbSonota()
         {
             InitializeComponent();
         }
+
+        
     }
 }
