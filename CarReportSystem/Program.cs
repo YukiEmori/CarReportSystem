@@ -16,7 +16,7 @@ namespace CarReportSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new rbSonota());
+            Application.Run(new Form1());
         }
     }
 }
