@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace CarReportSystem
 {
+    [Serializable]
     class CarReport
     {
         [System.ComponentModel.DisplayName("作成日")]

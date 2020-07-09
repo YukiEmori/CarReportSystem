@@ -57,6 +57,8 @@
             this.rbsonota = new System.Windows.Forms.RadioButton();
             this.ofdOpenImage = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ofdOpenDate = new System.Windows.Forms.OpenFileDialog();
+            this.sfdSaveData = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -117,8 +119,6 @@
             // comboBoxAuthor
             // 
             this.comboBoxAuthor.FormattingEnabled = true;
-            this.comboBoxAuthor.Items.AddRange(new object[] {
-            "江森悠季"});
             this.comboBoxAuthor.Location = new System.Drawing.Point(121, 69);
             this.comboBoxAuthor.Name = "comboBoxAuthor";
             this.comboBoxAuthor.Size = new System.Drawing.Size(239, 20);
@@ -183,6 +183,7 @@
             this.btGridViewFix.TabIndex = 18;
             this.btGridViewFix.Text = "修正";
             this.btGridViewFix.UseVisualStyleBackColor = true;
+            this.btGridViewFix.Click += new System.EventHandler(this.btGridViewFix_Click);
             // 
             // btGridViewDelete
             // 
@@ -193,6 +194,7 @@
             this.btGridViewDelete.TabIndex = 19;
             this.btGridViewDelete.Text = "削除";
             this.btGridViewDelete.UseVisualStyleBackColor = true;
+            this.btGridViewDelete.Click += new System.EventHandler(this.btGridViewDelete_Click);
             // 
             // label7
             // 
@@ -212,6 +214,7 @@
             this.btSave.TabIndex = 21;
             this.btSave.Text = "保存";
             this.btSave.UseVisualStyleBackColor = true;
+            this.btSave.Click += new System.EventHandler(this.btSave_Click);
             // 
             // btGridViewOpen
             // 
@@ -222,6 +225,7 @@
             this.btGridViewOpen.TabIndex = 22;
             this.btGridViewOpen.Text = "開く";
             this.btGridViewOpen.UseVisualStyleBackColor = true;
+            this.btGridViewOpen.Click += new System.EventHandler(this.btGridViewOpen_Click);
             // 
             // btEnd
             // 
@@ -232,11 +236,12 @@
             this.btEnd.TabIndex = 23;
             this.btEnd.Text = "終了";
             this.btEnd.UseVisualStyleBackColor = true;
+            this.btEnd.Click += new System.EventHandler(this.btEnd_Click);
             // 
             // txReport
             // 
             this.txReport.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.txReport.Location = new System.Drawing.Point(121, 213);
+            this.txReport.Location = new System.Drawing.Point(127, 219);
             this.txReport.Multiline = true;
             this.txReport.Name = "txReport";
             this.txReport.Size = new System.Drawing.Size(363, 107);
@@ -253,10 +258,15 @@
             // 
             // dataGridView
             // 
+            this.dataGridView.AllowUserToAddRows = false;
+            this.dataGridView.AllowUserToDeleteRows = false;
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(121, 332);
+            this.dataGridView.MultiSelect = false;
             this.dataGridView.Name = "dataGridView";
+            this.dataGridView.ReadOnly = true;
             this.dataGridView.RowTemplate.Height = 21;
+            this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(687, 148);
             this.dataGridView.TabIndex = 26;
             // 
@@ -346,6 +356,10 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
+            // ofdOpenDate
+            // 
+            this.ofdOpenDate.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -415,6 +429,8 @@
         private System.Windows.Forms.RadioButton rbsonota;
         private System.Windows.Forms.OpenFileDialog ofdOpenImage;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.OpenFileDialog ofdOpenDate;
+        private System.Windows.Forms.SaveFileDialog sfdSaveData;
     }
 }
 
