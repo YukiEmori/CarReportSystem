@@ -110,10 +110,17 @@ namespace CarReportSystem
             if (pictureBox.Image == null)
             {
                 return;
-            }        
+            }
+            DialogResult result = MessageBox.Show("削除していいですか", "確認", MessageBoxButtons.OKCancel);
+
+            // 判定
+            if (result == DialogResult.OK)
+            {
+                pictureBox.Image = null;
+            }
         }
 
-        private void btGridViewDelete_Click(object sender, EventArgs e)
+            private void btGridViewDelete_Click(object sender, EventArgs e)
         {
             CarReport.RemoveAt(dataGridView.CurrentRow.Index);
         }
