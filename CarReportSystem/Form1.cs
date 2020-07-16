@@ -24,7 +24,7 @@ namespace CarReportSystem
         public Form1()
         {
             InitializeComponent();
-            dataGridView.DataSource = CarReport;
+            //dataGridView.DataSource = CarReport;
             
         }
 
@@ -34,30 +34,9 @@ namespace CarReportSystem
         private void btGridViewAdd_Click(object sender, EventArgs e)
         {
 
-            //CarReportオブジェクトの生成
-            CarReport obj = new CarReport
-            {
-                CreatedDate = dateTimePicker.Value,
-                Author = comboBoxAuthor.Text,
-                MaKer = Makers(),
-                Name = comboBoxName.Text,
-                Report = txReport.Text,
-                Picture = pictureBox.Image
-            };
-
-            //リストの先頭(インデックス0)へ追加
-            CarReport.Insert(0, obj);
-
-            ////選択行をクリア
-            dataGridView.ClearSelection();
-
-            //追加時にcomboBoxに追加をする
-            comboBoxName.Items.Add(comboBoxName.Text);
-            comboBoxAuthor.Items.Add(comboBoxAuthor.Text);
-
-            //登録時中身を空にする
-            inputitemAllClear();
-
+            // TODO: このコード行はデータを 'infosys202004DataSet.CarReport' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
+            this.carReportTableAdapter.Fill(this.infosys202004DataSet.CarReport);
+            dataGridView.Columns[0].Visible = false;
         }
 
         private CarReport.CarMaker Makers()
@@ -127,15 +106,17 @@ namespace CarReportSystem
 
         private void btGridViewFix_Click(object sender, EventArgs e)
         {
-            CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
-            SelectedCar.CreatedDate = dateTimePicker.Value;
-            SelectedCar.Author = comboBoxAuthor.Text;
-            SelectedCar.MaKer = Makers();
-            SelectedCar.Name = comboBoxName.Text;
-            SelectedCar.Report = txReport.Text;
-            SelectedCar.Picture = pictureBox.Image;
+            var test = dataGridView.CurrentRow.Cells[2].Value; //選択している行の指定したセルの値を取得
 
-            dataGridView.Refresh(); //データグリッドビューの再描画
+            //CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
+            //SelectedCar.CreatedDate = dateTimePicker.Value;
+            //SelectedCar.Author = comboBoxAuthor.Text;
+            //SelectedCar.MaKer = Makers();
+            //SelectedCar.Name = comboBoxName.Text;
+            //SelectedCar.Report = txReport.Text;
+            //SelectedCar.Picture = pictureBox.Image;
+
+            //dataGridView.Refresh(); //データグリッドビューの再描画
         }
 
 
@@ -145,6 +126,7 @@ namespace CarReportSystem
         //データを開く
         private void btGridViewOpen_Click(object sender, EventArgs e)
         {
+
             //オープンファイルダイアログを表示
             if (ofdOpenDate.ShowDialog() == DialogResult.OK)
             {
@@ -157,7 +139,7 @@ namespace CarReportSystem
                         CarReport = (BindingList<CarReport>)formatter.Deserialize(fs);
                         //データグリッドビューに再設定
                         dataGridView.DataSource = CarReport;
-                        
+
                     }
                     catch (SerializationException ex)
                     {
@@ -166,7 +148,7 @@ namespace CarReportSystem
                     }
 
                 }
-            }
+        }
         }
 
         //保存
@@ -209,6 +191,25 @@ namespace CarReportSystem
             groupBox1.Text = "";
             txReport.Text = "";
             pictureBox.Image = null;
+        }
+
+        private void carReportBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        {
+            this.Validate();
+            this.carReportBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+           
         }
     }
     }
