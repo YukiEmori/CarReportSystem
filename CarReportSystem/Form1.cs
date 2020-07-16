@@ -33,10 +33,29 @@ namespace CarReportSystem
         //追加ボタン
         private void btGridViewAdd_Click(object sender, EventArgs e)
         {
+            //CarReportオブジェクトの生成
+            CarReport obj = new CarReport
+            {
+                CreatedDate = dateTimePicker.Value,
+                Author = comboBoxAuthor.Text,
+                MaKer = Makers(),
+                Name = comboBoxName.Text,
+                Report = txReport.Text,
+                Picture = pictureBox.Image
+            };
 
-            // TODO: このコード行はデータを 'infosys202004DataSet.CarReport' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
-            this.carReportTableAdapter.Fill(this.infosys202004DataSet.CarReport);
-            dataGridView.Columns[0].Visible = false;
+            //リストの先頭(インデックス0)へ追加
+            CarReport.Insert(0, obj);
+
+            ////選択行をクリア
+            dataGridView.ClearSelection();
+
+            //追加時にcomboBoxに追加をする
+            comboBoxName.Items.Add(comboBoxName.Text);
+            comboBoxAuthor.Items.Add(comboBoxAuthor.Text);
+
+            //登録時中身を空にする
+            inputitemAllClear();
         }
 
         private CarReport.CarMaker Makers()
@@ -123,32 +142,13 @@ namespace CarReportSystem
      
 
 
-        //データを開く
+        //データ接続
         private void btGridViewOpen_Click(object sender, EventArgs e)
         {
 
-            //オープンファイルダイアログを表示
-            if (ofdOpenDate.ShowDialog() == DialogResult.OK)
-            {
-                using (FileStream fs = new FileStream(ofdOpenDate.FileName, FileMode.Open))
-                {
-                    try
-                    {
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        //逆シリアル化して読み込む
-                        CarReport = (BindingList<CarReport>)formatter.Deserialize(fs);
-                        //データグリッドビューに再設定
-                        dataGridView.DataSource = CarReport;
-
-                    }
-                    catch (SerializationException ex)
-                    {
-                        Console.WriteLine("Failed to deserialize. Reason: " + ex.Message);
-                        throw;
-                    }
-
-                }
-        }
+            // TODO: このコード行はデータを 'infosys202004DataSet.CarReport' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
+            this.carReportTableAdapter.Fill(this.infosys202004DataSet.CarReport);
+            dataGridView.Columns[0].Visible = false;
         }
 
         //保存
@@ -199,17 +199,40 @@ namespace CarReportSystem
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
 
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            
-
-        }
-
-        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
            
+
         }
+
+
+        private void dataGridView_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        {
+            //選択したレコード（行)の、インデックスで指定した項目を取り出す
+            var maker = dataGridView.CurrentRow.Cells[3].Value;
+
+
+            switch (.ToString)
+            {
+
+            }
+        }
+
+        // バイト配列をImageオブジェクトに変換
+        public static Image ByteArrayToImage(byte[] byteData)
+        {
+            ImageConverter imgconv = new ImageConverter();
+            Image img = (Image)imgconv.ConvertFrom(byteData);
+            return img;
+        }
+
+        // Imageオブジェクトをバイト配列に変換
+        public static byte[] ImageToByteArray(Image img)
+        {
+            ImageConverter imgconv = new ImageConverter();
+            byte[] byteData = (byte[])imgconv.ConvertTo(img, typeof(byte[]));
+            return byteData;
+        }
+
     }
-    }
+}
+
+

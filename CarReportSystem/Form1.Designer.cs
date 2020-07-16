@@ -213,7 +213,7 @@
             this.btGridViewAdd.Name = "btGridViewAdd";
             this.btGridViewAdd.Size = new System.Drawing.Size(75, 23);
             this.btGridViewAdd.TabIndex = 17;
-            this.btGridViewAdd.Text = "データ接続";
+            this.btGridViewAdd.Text = "追加";
             this.btGridViewAdd.UseVisualStyleBackColor = true;
             this.btGridViewAdd.Click += new System.EventHandler(this.btGridViewAdd_Click);
             // 
@@ -265,7 +265,7 @@
             this.btGridViewOpen.Name = "btGridViewOpen";
             this.btGridViewOpen.Size = new System.Drawing.Size(75, 23);
             this.btGridViewOpen.TabIndex = 22;
-            this.btGridViewOpen.Text = "開く";
+            this.btGridViewOpen.Text = "接続";
             this.btGridViewOpen.UseVisualStyleBackColor = true;
             this.btGridViewOpen.Click += new System.EventHandler(this.btGridViewOpen_Click);
             // 
@@ -532,6 +532,7 @@
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(681, 141);
             this.dataGridView.TabIndex = 28;
+            this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellContentClick_1);
             // 
             // dataGridViewTextBoxColumn1
             // 
