@@ -198,22 +198,16 @@ namespace CarReportSystem
             this.Validate();
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
-
-           
-
+         
         }
 
 
-        private void dataGridView_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private void dataGridView_Click_1(object sender, EventArgs e)
         {
             //選択したレコード（行)の、インデックスで指定した項目を取り出す
             var maker = dataGridView.CurrentRow.Cells[3].Value;
+            setMakerRadioButtonSet((string)maker);
 
-
-            switch (.ToString)
-            {
-
-            }
         }
 
         // バイト配列をImageオブジェクトに変換
@@ -232,6 +226,41 @@ namespace CarReportSystem
             return byteData;
         }
 
+        private void setMakerRadioButtonSet(string carMaker)
+        {
+            switch (carMaker)
+            {
+                case "トヨタ":
+                    rbToyota.Checked = true;
+                    break;
+                case "日産":
+                    rbNissan.Checked = true;
+                    break;
+                case "ホンダ":
+                    rbHonda.Checked = true;
+                    break;
+                case "スバル":
+                    rbSubaru.Checked = true;
+                    break;
+                case "外車":
+                    rbGisya.Checked = true;
+                    break;
+                case "その他":
+                    rbsonota.Checked = true;
+                    break;
+
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            dataGridView.CurrentRow.Cells[2].Value = comboBoxAuthor.Text;
+
+            //データベース反映
+            this.Validate();
+            this.carReportBindingSource.EndEdit();
+            this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
+        }
     }
 }
 
