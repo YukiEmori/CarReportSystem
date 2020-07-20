@@ -37,9 +37,9 @@ namespace CarReportSystem
             CarReport obj = new CarReport
             {
                 CreatedDate = dateTimePicker.Value,
-                Author = comboBoxAuthor.Text,
+                Author = cbAuthor.Text,
                 MaKer = Makers(),
-                Name = comboBoxName.Text,
+                Name = cbName.Text,
                 Report = txReport.Text,
                 Picture = pictureBox.Image
             };
@@ -48,11 +48,11 @@ namespace CarReportSystem
             CarReport.Insert(0, obj);
 
             ////選択行をクリア
-            dataGridView.ClearSelection();
+            dgvCarReports.ClearSelection();
 
             //追加時にcomboBoxに追加をする
-            comboBoxName.Items.Add(comboBoxName.Text);
-            comboBoxAuthor.Items.Add(comboBoxAuthor.Text);
+            cbName.Items.Add(cbName.Text);
+            cbAuthor.Items.Add(cbAuthor.Text);
 
             //登録時中身を空にする
             inputitemAllClear();
@@ -118,25 +118,22 @@ namespace CarReportSystem
             }
         }
 
-            private void btGridViewDelete_Click(object sender, EventArgs e)
-        {
-            CarReport.RemoveAt(dataGridView.CurrentRow.Index);
-        }
+        
 
-        private void btGridViewFix_Click(object sender, EventArgs e)
-        {
-            var test = dataGridView.CurrentRow.Cells[2].Value; //選択している行の指定したセルの値を取得
+        //private void btGridViewFix_Click(object sender, EventArgs e)
+        //{
+        //    var test = dataGridView.CurrentRow.Cells[2].Value; //選択している行の指定したセルの値を取得
 
-            //CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
-            //SelectedCar.CreatedDate = dateTimePicker.Value;
-            //SelectedCar.Author = comboBoxAuthor.Text;
-            //SelectedCar.MaKer = Makers();
-            //SelectedCar.Name = comboBoxName.Text;
-            //SelectedCar.Report = txReport.Text;
-            //SelectedCar.Picture = pictureBox.Image;
+        //    //CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
+        //    //SelectedCar.CreatedDate = dateTimePicker.Value;
+        //    //SelectedCar.Author = comboBoxAuthor.Text;
+        //    //SelectedCar.MaKer = Makers();
+        //    //SelectedCar.Name = comboBoxName.Text;
+        //    //SelectedCar.Report = txReport.Text;
+        //    //SelectedCar.Picture = pictureBox.Image;
 
-            //dataGridView.Refresh(); //データグリッドビューの再描画
-        }
+        //    //dataGridView.Refresh(); //データグリッドビューの再描画
+        //}
 
 
      
@@ -148,7 +145,7 @@ namespace CarReportSystem
 
             // TODO: このコード行はデータを 'infosys202004DataSet.CarReport' テーブルに読み込みます。必要に応じて移動、または削除をしてください。
             this.carReportTableAdapter.Fill(this.infosys202004DataSet.CarReport);
-            dataGridView.Columns[0].Visible = false;
+            dgvCarReports.Columns[0].Visible = false;
         }
 
         //保存
@@ -186,8 +183,8 @@ namespace CarReportSystem
         //入力項目を全クリア
         private void inputitemAllClear()
         {
-            comboBoxAuthor.Text = "";
-            comboBoxName.Text = "";
+            cbAuthor.Text = "";
+            cbName.Text = "";
             groupBox1.Text = "";
             txReport.Text = "";
             pictureBox.Image = null;
@@ -195,21 +192,13 @@ namespace CarReportSystem
 
         private void carReportBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
+            //データベース更新(反映)
             this.Validate();
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
          
         }
-
-
-        private void dataGridView_Click_1(object sender, EventArgs e)
-        {
-            //選択したレコード（行)の、インデックスで指定した項目を取り出す
-            var maker = dataGridView.CurrentRow.Cells[3].Value;
-            setMakerRadioButtonSet((string)maker);
-
-        }
-
+  
         // バイト配列をImageオブジェクトに変換
         public static Image ByteArrayToImage(byte[] byteData)
         {
@@ -252,14 +241,31 @@ namespace CarReportSystem
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        
+        private void btGridViewFix_Click(object sender, EventArgs e)
         {
-            dataGridView.CurrentRow.Cells[2].Value = comboBoxAuthor.Text;
+            dgvCarReports.CurrentRow.Cells[2].Value = cbAuthor.Text;
 
             //データベース反映
             this.Validate();
             this.carReportBindingSource.EndEdit();
             this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
+        }
+
+        private void dgvCarReports_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //選択したレコード（行)の、インデックスで指定した項目を取り出す
+            var maker = dgvCarReports.CurrentRow.Cells[3].Value;
+
+            //編集者
+            cbAuthor.Text = dgvCarReports.CurrentRow.Cells[2].Value.ToString();
+            setMakerRadioButtonSet((string)maker);
+        }
+
+        //終了
+        private void btEnd_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
