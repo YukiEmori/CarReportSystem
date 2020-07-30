@@ -27,37 +27,7 @@ namespace CarReportSystem
             //dataGridView.DataSource = CarReport;
             
         }
-
-       
-
-        //追加ボタン
-        private void btGridViewAdd_Click(object sender, EventArgs e)
-        {
-            //CarReportオブジェクトの生成
-            CarReport obj = new CarReport
-            {
-                CreatedDate = dateTimePicker.Value,
-                Author = cbAuthor.Text,
-                MaKer = Makers(),
-                Name = cbName.Text,
-                Report = txReport.Text,
-                Picture = pictureBox.Image
-            };
-
-            //リストの先頭(インデックス0)へ追加
-            CarReport.Insert(0, obj);
-
-            ////選択行をクリア
-            dgvCarReports.ClearSelection();
-
-            //追加時にcomboBoxに追加をする
-            cbName.Items.Add(cbName.Text);
-            cbAuthor.Items.Add(cbAuthor.Text);
-
-            //登録時中身を空にする
-            inputitemAllClear();
-        }
-
+     
         private CarReport.CarMaker Makers()
         {
             // 指定したグループ内のラジオボタンでチェックされている物を取り出す
@@ -118,26 +88,6 @@ namespace CarReportSystem
             }
         }
 
-        
-
-        //private void btGridViewFix_Click(object sender, EventArgs e)
-        //{
-        //    var test = dataGridView.CurrentRow.Cells[2].Value; //選択している行の指定したセルの値を取得
-
-        //    //CarReport SelectedCar = CarReport[dataGridView.CurrentRow.Index];
-        //    //SelectedCar.CreatedDate = dateTimePicker.Value;
-        //    //SelectedCar.Author = comboBoxAuthor.Text;
-        //    //SelectedCar.MaKer = Makers();
-        //    //SelectedCar.Name = comboBoxName.Text;
-        //    //SelectedCar.Report = txReport.Text;
-        //    //SelectedCar.Picture = pictureBox.Image;
-
-        //    //dataGridView.Refresh(); //データグリッドビューの再描画
-        //}
-
-
-     
-
 
         //データ接続
         private void btGridViewOpen_Click(object sender, EventArgs e)
@@ -175,21 +125,6 @@ namespace CarReportSystem
             }
         }
 
-        private void btEnd_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        //入力項目を全クリア
-        private void inputitemAllClear()
-        {
-            cbAuthor.Text = "";
-            cbName.Text = "";
-            groupBox1.Text = "";
-            txReport.Text = "";
-            pictureBox.Image = null;
-        }
-
         private void carReportBindingNavigatorSaveItem_Click(object sender, EventArgs e)
         {
             //データベース更新(反映)
@@ -215,6 +150,7 @@ namespace CarReportSystem
             return byteData;
         }
 
+        //一行選択したときのラジオボタン
         private void setMakerRadioButtonSet(string carMaker)
         {
             switch (carMaker)
@@ -241,10 +177,21 @@ namespace CarReportSystem
             }
         }
 
-        
+        //変更ボタン
         private void btGridViewFix_Click(object sender, EventArgs e)
         {
             dgvCarReports.CurrentRow.Cells[2].Value = cbAuthor.Text;
+            dgvCarReports.CurrentRow.Cells[6].Value = ImageToByteArray(pictureBox.Image);
+
+            if(pictureBox.Image != null)
+            {
+                dgvCarReports.CurrentRow.Cells[6].Value = ImageToByteArray(pictureBox.Image);
+            }
+            else
+            {
+                dgvCarReports.CurrentRow.Cells[6].Value = null;
+            }
+
 
             //データベース反映
             this.Validate();
@@ -252,21 +199,61 @@ namespace CarReportSystem
             this.tableAdapterManager.UpdateAll(this.infosys202004DataSet);
         }
 
+        //データグリッドビィーをクリック
         private void dgvCarReports_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            //選択したレコード（行)の、インデックスで指定した項目を取り出す
+            try
+            {
+                //選択したレコード（行)の、インデックスで指定した項目を取り出す
+                dateTimePicker.Value = (DateTime)dgvCarReports.CurrentRow.Cells[1].Value; 
             var maker = dgvCarReports.CurrentRow.Cells[3].Value;
 
             //編集者
             cbAuthor.Text = dgvCarReports.CurrentRow.Cells[2].Value.ToString();
-            setMakerRadioButtonSet((string)maker);
+
+                //画像
+                setMakerRadioButtonSet((string)maker);
+                pictureBox.Image = ByteArrayToImage((byte[])dgvCarReports.CurrentRow.Cells[6].Value);
+            }
+            catch (InvalidCastException)//画像がDBに登録されていないとき
+            {
+                pictureBox.Image = null;
+            }
+            catch(Exception ex)//上記以外のデータをすべて疲労
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+            
         }
 
-        //終了
+        //終了ボタン
         private void btEnd_Click_1(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+        private void btGridViewDelete_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btSearchExe_Click(object sender, EventArgs e)
+        {
+            
+            if (rband.Checked == true){
+                this.carReportTableAdapter.FillByCar(this.infosys202004DataSet.CarReport, tbSearchCarName.Text, tbSearchCarMekar.Text, tbSearchDate.Value.ToString());
+            }
+
+            else if (rbor.Checked == true)
+            {
+                this.carReportTableAdapter.FillByCarOr(this.infosys202004DataSet.CarReport, tbSearchDate.Value.ToString(), tbSearchCarMekar.Text, tbSearchCarName.Text);
+  }
+            
+
+
+        }
+
     }
 }
 
